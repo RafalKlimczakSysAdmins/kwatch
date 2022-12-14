@@ -91,17 +91,6 @@ func (s *Slack) SendEvent(ev *event.Event) error {
 		}
 	}
 
-	// add logs part if it exists
-	logs := strings.TrimSpace(ev.Logs)
-	if len(logs) > 0 {
-		blocks = append(blocks,
-			markdownSection(":memo: *Logs*"))
-
-		for _, chunk := range chunks(logs, chunkSize) {
-			blocks = append(blocks,
-				markdownSectionF("```%s```", chunk))
-		}
-	}
 
 	// send message
 	return s.sendAPI(&slackClient.WebhookMessage{
